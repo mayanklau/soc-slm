@@ -36,7 +36,13 @@ def demo_tokenizer():
     
     entities = matcher.extract_entities(sample_text)
     for entity in entities:
-        print(f"  • {entity['type']}: {entity['value']}")
+        # Robust printing: supports dict entities or string entities
+if isinstance(entity, dict):
+    et = entity.get('type') or entity.get('entity') or 'unknown'
+    ev = entity.get('value') or entity.get('text') or entity.get('match') or str(entity)
+    print(f"  • {et}: {ev}")
+else:
+    print(f"  • {entity}")
     
     # Tokenizer demo
     print("\n📝 Tokenizer Training:")
